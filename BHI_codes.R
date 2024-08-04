@@ -56,6 +56,7 @@ library (epitools)
 library(coin)
 library(DescTools)
 library (AER)
+library(survival)
 
 #visualising data to know distributions and ascertain if parametric or non-parametric tests are bettere
 
@@ -73,6 +74,18 @@ boxplot(BHI$X.age., main= "boxplot of age", ylab= "age")
 summary(BHI$X.BHI_score.)
 
 boxplot(BHI$X.BHI_score., main= "boxplot of BHI score", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.sex, main= "boxplot of BHI score by sex", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.smoking, main= "boxplot of BHI score by smoking", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.reg.drinking, main= "boxplot of BHI score by reg drinking", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.medication, main= "boxplot of BHI score by medication use", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.HTN, main= "boxplot of BHI score by HTN", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.DM, main= "boxplot of BHI score by DM", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.hypothyroidism, main= "boxplot of BHI score by hypothyroidism", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.AF, main= "boxplot of BHI score by AF", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.anaemia, main= "boxplot of BHI score by anaemia", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.OSA, main= "boxplot of BHI score by OSA", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.CHD, main= "boxplot of BHI score by CHD", ylab= "BHI score")
+boxplot(BHI$X.BHI_score.~f.PVD, main= "boxplot of BHI score by PVD", ylab= "BHI score")
 
 sd((BHI$X.age.))
 any.na((BHI$X.age.))
@@ -81,19 +94,31 @@ freq(f.sex, na.rm=TRUE, plot=FALSE)
 sd(BHI$X.BHI_score.)
 
 
-# creating a factor variable: some examples
+# Creating a factor variable: some examples
 
 f.CHD<- factor(IHB$X.dx_CHD.)
 f.alcstopped<- factor(IHB$X.stopped_alcohol.)
 f.alcuse<- factor(IHB$X.alcohol_intake.)
+f.sex<- factor(IHB$X.sex.)
+f.smoking <- factor(IHB$X.smoking_status.)
+f.reg.drinking <- factor(IHB$X.regular_drinking.)
+f.medication <- factor(IHB$X.medication.)
+f.HTN <- factor(IHB$X.dx_HI_BP.)
+f.DM <- factor(IHB$X.dx_T2D.)
+f.hypothyroidism <- factor(IHB$X.Hypothyroidism.)
+f.AF <- factor(IHB$X.Atrial.)
+f.anaemia <-factor(IHB$X.Anemia.)
+f.OSA <- factor(IHB$X.OSA.)
+f.CHD <- factor(IHB$X.dx_CHD.)
+f.PVD <- factor(IHB$X.PVD.)
 
-# BHI based on different catergoris after conversion to factor variables
+BHI<-IHB
+
+# BHI based on different categories after conversion to factor variables
 
 favstats(BHI$X.BHI_score.)
 favstats(BHI$X.BHI_score.~f.sex)
 favstats(BHI$X.BHI_score.~f.smoking)
-favstats(BHI$X.BHI_score.~f.alc.use)
-favstats(BHI$X.BHI_score.~f.alc.stop)
 favstats(BHI$X.BHI_score.~f.reg.drinking)
 favstats(BHI$X.BHI_score.~f.medication)
 favstats(BHI$X.BHI_score.~f.HTN)
@@ -104,9 +129,8 @@ favstats(BHI$X.BHI_score.~f.anaemia)
 favstats(BHI$X.BHI_score.~f.OSA)
 favstats(IHB$X.BHI_score.~f.CHD)
 favstats(BHI$X.BHI_score.~f.PVD)
-favstats(BHI$X.BHI_score.~f.CHF)
-favstats(BHI$X.BHI_score.~f.kidneyfailure)
-favstats(BHI$X.BHI_score.~f.kidneynephropathy)
+favstats(BHI$X.BHI_score.~f.alc.use)
+favstats(BHI$X.BHI_score.~f.alc.stop)
 
 # anova test 
 summary(aov(IHB$X.BHI_score. ~ f.alcuse))
@@ -131,6 +155,3 @@ summary(model1)
 model<-lm(BHI$X.BHI_score.~f.sex + f.smoking + f.reg.drinking + f.medication + f.CHD + f.HTN + f.DM + f.AF + f.anaemia + f.hypothyroidism + f.OSA + f.PVD + BHI$X.BMI.)
 
 summary(model)
-
-
-
